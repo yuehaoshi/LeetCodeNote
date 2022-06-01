@@ -94,10 +94,16 @@ public:
     }
 };
 
-//nums[mid] > target: separate nums into two ascending parts, the first part is always "higher" than the second part. If nums[mid] and target are in the same part, we could use the normal binary search logic. However, if nums[mid] and target are in the different part, (if nums[mid] > target, then nums[mid] will be in the first part and target will be in the second part), then there must be nums[mid] >= nums[left] > target (nums[mid] could equal to target but nums[left] will not be equal to target), and we will make left = mid + 1;
+//nums[mid] > target: separate nums into two ascending parts, the first part is always "higher" than the second part. 
+//If nums[mid] and target are in the same part, we could use the normal binary search logic. 
+//However, if nums[mid] and target are in the different part, (if nums[mid] > target, 
+//then nums[mid] will be in the first part and target will be in the second part), 
+//then there must be nums[mid] >= nums[left] > target (nums[mid] could equal to target 
+//but nums[left] will not be equal to target), and we will make left = mid + 1;
 
 //nums[mid] < target:
-//Same to the previous scenario, if nums[mid] in second part and target in first part, then there will be target > nums[right] >= nums[mid] and we will make right = mid - 1;
+//Same to the previous scenario, if nums[mid] in second part and target in first part, 
+//then there will be target > nums[right] >= nums[mid] and we will make right = mid - 1;
 ```
 ### 81 Search in Rotated Sorted Array II
 There is an integer array nums sorted in non-decreasing order (not necessarily with distinct values).
@@ -137,5 +143,8 @@ public:
         return false;
     }
 };
-//Compare to 33, there are more special cases. For example, [1, 1, 0, 1], [1, 1, 2, 1], where nums[left] == nums[right] == nums[mid], in this case, there is no way to only move left or right, the only way is to shrink both left and right. The worst case is that every element in the array is the same, which will take O(n) time complexity. For an array with less duplicated element, O could reach O(logn)
+//Compare to 33, there are more special cases. For example, [1, 1, 0, 1], [1, 1, 2, 1], where nums[left] == nums[right] == nums[mid], 
+//in this case, there is no way to only move left or right, the only way is to shrink both left and right. 
+//The worst case is that every element in the array is the same, which will take O(n) time complexity. 
+//For an array with less duplicated element, O could reach O(logn)
 ```
