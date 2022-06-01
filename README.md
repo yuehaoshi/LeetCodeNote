@@ -274,6 +274,87 @@ public:
 //1. Remember the defination of listnode
 //2. Dont forget the p = p->next and if p1 or p2 exist after while
 ```
-### 3
-### 53
+### 3 Longest Substring Without Repeating Characters
+Given a string s, find the length of the longest substring without repeating characters.
+> Example 1:  
+Input: s = "abcabcbb"  
+Output: 3  
+Explanation: The answer is "abc", with the length of 3.  
+
+> Example 2:  
+Input: s = "bbbbb"  
+Output: 1  
+Explanation: The answer is "b", with the length of 1.  
+
+> Example 3:  
+Input: s = "pwwkew"  
+Output: 3  
+Explanation: The answer is "wke", with the length of 3.  
+Notice that the answer must be a substring, "pwke" is a subsequence and not a substring.  
+
+Solution: Use a slicing window
+```
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int left = 0, res = 0;
+        unordered_set<char> window;
+        for (int i = 0; i < s.size(); i++) {
+            //window starts at left and end at i;
+            while (window.find(s[i]) != window.end()) {
+                window.erase(s[left]);
+                left++;
+            }
+            window.insert(s[i]);
+            res = max(res, i - left + 1);
+        }
+        return res;
+    }
+};
+```
+### 53 Maximum Subarray
+Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
+A subarray is a contiguous part of an array.
+> Example 1:  
+Input: nums = [-2,1,-3,4,-1,2,1,-5,4]  
+Output: 6  
+Explanation: [4,-1,2,1] has the largest sum = 6.  
+
+> Example 2:  
+Input: nums = [1]  
+Output: 1  
+
+> Example 3:  
+Input: nums = [5,4,-1,7,8]  
+Output: 23  
+
+Solution:
+```
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        // dp
+        vector<int> dp(nums.size());
+        //Define dp[i] as the max sum subarray end with i
+        dp[0] = nums[0];
+        int res = dp[0];
+        for (int i = 1; i < nums.size(); i++) {
+            dp[i] = max(nums[i], dp[i - 1] + nums[i]);
+            res = max(res, dp[i]);
+        }
+        return res;
+        
+        // Brute force (Time limit Exceeded)
+        // int res = nums[0];
+        // for (int i = 0; i < nums.size(); i++) {
+        //     int cur = 0;
+        //     for (int j = i; j >= 0; j--){
+        //         cur += nums[j];
+        //         res = max(cur, res);
+        //     }
+        // }
+        // return res;
+    }
+};
+```
 ### 1
