@@ -12,6 +12,7 @@ Explanation: 9 exists in nums and its index is 4
 Input: nums = [-1,0,3,5,9,12], target = 2  
 Output: -1  
 Explanation: 2 does not exist in nums so return -1  
+
 Solution1: Left close, right close:
 ```
 class Solution {
@@ -152,6 +153,7 @@ Output: [1,2,3,5]
 >Example 2:  
 Input: nums = [5,1,1,2,0,0]  
 Output: [0,0,1,1,2,5]  
+
 Method 1: Merge Sort, Sort left, Sort right, Merger left and right with two pointers
 ```
 ```
@@ -169,6 +171,7 @@ Output: [0,0,1,1,2,2]
 > Example 2:  
 Input: nums = [2,0,1]  
 Output: [0,1,2]  
+
 Solution 1: Two pointers for 0 and 1
 ```
 class Solution {
@@ -189,7 +192,35 @@ public:
         }
     }
 };
-//every time after updating p0 and p1, p0 and p1 will be always in the next position of the sorted "0"s and "1"s. For example, [2,0,2,1,1,0], after several iteration becames [0,1,1,2,2,0], where i = 5, p0 = 1 and p1 = 3. Now nums[i] == 0, we swap nums[i] and nums[p0] first, but we swap the sorted "1" in p0 position to nums[i] position, so we need to swap(nums[i], nums[p1]) to get that "1" back to the last element of the sorted "1"s.
+//every time after updating p0 and p1, p0 and p1 will be always in the next position of the sorted "0"s and "1"s. 
+//For example, [2,0,2,1,1,0], after several iteration becames [0,1,1,2,2,0], where i = 5, p0 = 1 and p1 = 3. 
+//Now nums[i] == 0, we swap nums[i] and nums[p0] first, but we swap the sorted "1" in p0 position to nums[i] position, 
+//so we need to swap(nums[i], nums[p1]) to get that "1" back to the last element of the sorted "1"s.
+```
+Solution 2: Two pointers for 0 and 2
+```
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int p0 = 0, p2 = nums.size() - 1;
+        for (int i = 0; i <= p2; i++) {
+            while (nums[i] == 2 && i <= p2) {
+                swap(nums[i], nums[p2]);
+                p2--;
+            }
+            if (nums[i] == 0) {
+                swap(nums[i], nums[p0]);
+                p0++;
+            }
+        }
+    }
+};
+//Out i is going from left to right, so each time when nums[i]==2, we swap(nums[i], nums[p2]) 
+and make p2-- to make sure p2 is always the previous index of the sorted "2"s. 
+However, if current nums[p2]=2, the swap does not make any difference, 
+so we have to use a while loop to change the first "non-2" element met by p2 and make nums[i] not 2. 
+In this case, nums[i] could be 0 or 1, and we check nums[i] is 0 or not, 
+that's why we need to put "if (nums[i] == 0)" after the condition of p2.
 ```
 ### 21 Merge Two Sorted Lists
 You are given the heads of two sorted linked lists list1 and list2.
@@ -206,6 +237,7 @@ Output: []
 > Example 3:  
 Input: list1 = [], list2 = [0]  
 Output: [0]  
+
 Solution:
 ```
 /**
