@@ -56,7 +56,7 @@ public:
 //left = right, break, return -1;
 ```
 
-## 33 Search in Rotated Sorted Array
+### 33 Search in Rotated Sorted Array
 There is an integer array nums sorted in ascending order (with distinct values).
 Prior to being passed to your function, nums is possibly rotated at an unknown pivot index k (1 <= k < nums.length) such that the resulting array is [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]] (0-indexed). For example, [0,1,2,4,5,6,7] might be rotated at pivot index 3 and become [4,5,6,7,0,1,2].
 Given the array nums after the possible rotation and an integer target, return the index of target if it is in nums, or -1 if it is not in nums.
@@ -99,4 +99,43 @@ public:
 //nums[mid] < target:
 //Same to the previous scenario, if nums[mid] in second part and target in first part, then there will be target > nums[right] >= nums[mid] and we will make right = mid - 1;
 ```
-## 81
+### 81 Search in Rotated Sorted Array II
+There is an integer array nums sorted in non-decreasing order (not necessarily with distinct values).
+Before being passed to your function, nums is rotated at an unknown pivot index k (0 <= k < nums.length) such that the resulting array is [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]] (0-indexed). For example, [0,1,2,4,4,4,5,6,6,7] might be rotated at pivot index 5 and become [4,5,6,6,7,0,1,2,4,4].
+Given the array nums after the rotation and an integer target, return true if target is in nums, or false if it is not in nums.
+You must decrease the overall operation steps as much as possible.
+
+> Example 1:  
+Input: nums = [2,5,6,0,0,1,2], target = 0  
+Output: true  
+
+> Example 2:  
+Input: nums = [2,5,6,0,0,1,2], target = 3  
+Output: false  
+
+```
+class Solution {
+public:
+    bool search(vector<int>& nums, int target) {
+        int left = 0, right = nums.size() - 1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] == target) return true;
+            if (nums[mid] == nums[left] && nums[mid] == nums[right]) {
+                left++;
+                right--;
+            } // added compare to problem 33
+            else if (nums[mid] > target) {
+                if (nums[mid] >= nums[left] && nums[left] > target) left = mid + 1;
+                else right = mid - 1;
+            }
+            else if (nums[mid] < target) {
+                if (target > nums[right] && nums[right] >= nums[mid]) right = mid - 1;
+                else left = mid + 1;
+            }
+        }
+        return false;
+    }
+};
+//Compare to 33, there are more special cases. For example, [1, 1, 0, 1], [1, 1, 2, 1], where nums[left] == nums[right] == nums[mid], in this case, there is no way to only move left or right, the only way is to shrink both left and right. The worst case is that every element in the array is the same, which will take O(n) time complexity. For an array with less duplicated element, O could reach O(logn)
+```
