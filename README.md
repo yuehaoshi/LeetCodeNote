@@ -567,7 +567,10 @@ So one correct course order is [0,1,2,3]. Another correct ordering is [0,2,1,3].
 Input: numCourses = 1, prerequisites = []  
 Output: [0]  
 
-Solution1: BFS
+This is a classic topological graph algorithm, solution here: 
+https://leetcode.cn/problems/course-schedule-ii/solution/ke-cheng-biao-ii-by-leetcode-solution/
+
+Solution 1: BFS
 ```
 class Solution {
 public:
@@ -602,6 +605,156 @@ public:
     }
 };
 ```
-### 200
+Solution 2: DFS
+```
+```
+### 200 Number of Islands
+Given an m x n 2D binary grid grid which represents a map of '1's (land) and '0's (water), return the number of islands.
+An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.
 
-### 133
+Solution 1: DFS
+```
+class Solution {
+public:
+    int numIslands(vector<vector<char>>& grid) {
+        int res = 0;
+        vector<vector<int>> visited(grid.size(), vector<int>(grid[0].size(), 0));
+        //use visited matrix to avoid change original matrix
+        for (int i = 0; i < grid.size(); i++) {
+            for (int j = 0; j < grid[0].size(); j++) {
+                if (grid[i][j] == '1' && visited[i][j] == 0) {
+                    //Note: grid[i][j] ==. '1' but not 1
+                    dfs(grid, i, j, visited);
+                    res++;
+                }
+            }
+        }
+        return res;
+    }
+    void dfs(vector<vector<char>>& grid, int i, int j, vector<vector<int>>& visited) {
+        if (i < 0 || j < 0 || i >= grid.size() || j >= grid[0].size()) return;
+        //Donot forget those boundary cases
+        if (visited[i][j] == 1 || grid[i][j] == '0') return;
+        visited[i][j] = 1;
+        dfs(grid, i + 1, j, visited);
+        dfs(grid, i, j + 1, visited);
+        dfs(grid, i - 1, j, visited);
+        dfs(grid, i, j - 1, visited);
+    }
+};
+```
+Solution 2: BFS
+```
+class Solution {
+public:
+    int numIslands(vector<vector<char>>& grid) {
+        int res = 0;
+        for (int i = 0; i < grid.size(); i++) {
+            for (int j = 0; j < grid[0].size(); j++) {
+                if (grid[i][j] == '1') {
+                    res++;
+                    grid[i][j] = '0';
+                    queue<pair<int, int>> neighbors;
+                    neighbors.push({i, j});
+                    while (!neighbors.empty()) {
+                        auto cur = neighbors.front();
+                        neighbors.pop();
+                        int r = cur.first, c = cur.second;
+                        if (r + 1 < grid.size() && grid[r + 1][c] == '1') {
+                            neighbors.push({r + 1, c});
+                            grid[r + 1][c] = '0';
+                        }
+                        if (c + 1 < grid[0].size() && grid[r][c + 1] == '1') {
+                            neighbors.push({r, c + 1});
+                            grid[r][c + 1] = '0';
+                        }
+                        if (r - 1 >= 0 && grid[r - 1][c] == '1') {
+                            neighbors.push({r - 1, c});
+                            grid[r - 1][c] = '0';
+                        }
+                        if (c - 1 >= 0 && grid[r][c - 1] == '1') {
+                            neighbors.push({r, c - 1});
+                            grid[r][c - 1] = '0';
+                        }
+                    }
+                }
+            }
+        }
+        return res;
+    }
+};
+```
+Solution 3: Union-Find
+```
+```
+### 133 Clone Graph
+Given a reference of a node in a connected undirected graph. Return a deep copy (clone) of the graph.
+Each node in the graph contains a value (int) and a list (List[Node]) of its neighbors.
+```
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> neighbors;
+    Node() {
+        val = 0;
+        neighbors = vector<Node*>();
+    }
+    Node(int _val) {
+        val = _val;
+        neighbors = vector<Node*>();
+    }
+    Node(int _val, vector<Node*> _neighbors) {
+        val = _val;
+        neighbors = _neighbors;
+    }
+};
+```
+Solution 1: DFS
+```
+class Solution {
+public:
+    unordered_map<Node*, Node*> visited;
+    //visited map contains each node and its clone node
+    Node* cloneGraph(Node* node) {
+        if (node == nullptr) return node; 
+        if (visited.find(node) != visited.end()) return visited[node];
+        Node* clone = new Node(node->val);
+        visited[node] = clone;
+        for (auto& neighbor: node->neighbors) {
+            clone->neighbors.push_back(cloneGraph(neighbor));
+            //clone node's neighbors are the cloned neighbors
+        }
+        return clone;
+    }
+};
+```
+Solution 2: BFS
+```
+class Solution {
+public:
+    Node* cloneGraph(Node* node) {
+        if (node == nullptr) return node;
+        unordered_map<Node*, Node*> visited;
+        //visited stores visited and cloned nodes
+        queue<Node*> que;
+        que.push(node);
+        visited[node] = new Node(node->val);
+        while (!que.empty()) {
+            auto cur = que.front();
+            que.pop();
+            for (auto& neighbor: cur->neighbors) {
+                //Iterate all neighbors of current node
+                if (visited.find(neighbor) == visited.end()) {
+                    visited[neighbor] = new Node(neighbor->val);
+                    que.push(neighbor);
+                    //Every time we visit a new node and create a cloned node, remember to add it to queue for future visit
+                }
+                visited[cur]->neighbors.push_back(visited[neighbor]);
+                //Connect curretn cloned node with its neighbors
+            }
+        }
+        return visited[node];
+    }
+};
+```
