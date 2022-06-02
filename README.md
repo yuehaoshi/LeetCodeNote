@@ -1,4 +1,7 @@
 # LeetCodeNote
+## Tips
+Line by Line Comment: (mac, leetcode, vscode) command + /
+Block Comment: (mac, vscode) shift + option + A
 
 ## Binary Search
 ### 704
@@ -755,6 +758,40 @@ public:
             }
         }
         return visited[node];
+    }
+};
+```
+## Tree
+### 94 Binary Tree Inorder Traversal
+Given the root of a binary tree, return the inorder traversal of its nodes' values.
+```
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+```
+Solution 1: Recursion
+```
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> res;
+        traverse(root, res);
+        return res;
+    }
+    
+    void traverse(TreeNode* root, vector<int>& res) {
+        if (root == NULL) return;
+        traverse(root->left, res);
+        res.push_back(root->val);
+        traverse(root->right, res);
     }
 };
 ```
