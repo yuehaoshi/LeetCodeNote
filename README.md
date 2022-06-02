@@ -372,7 +372,8 @@ Output: [1,2]
 
 > Example 3:  
 Input: nums = [3,3], target = 6  
-Output: [0,1]
+Output: [0,1]  
+
 Solution:
 ```
 class Solution {
@@ -392,3 +393,163 @@ public:
     }
 };
 ```
+## BFS
+### 297 Serialize and Deserialize Binary Tree
+Solution1: DFS (recursion in pre-order)
+```
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Codec {
+public:
+
+    // Encodes a tree to a single string.
+    void traverse(TreeNode* root, string& str) {
+        if (root == NULL) str += "#,";
+        else {
+            str += to_string(root->val) + ",";
+            traverse(root->left, str);
+            traverse(root->right, str);
+        }
+    }
+    
+    string serialize(TreeNode* root) {
+        string str;
+        traverse(root, str);
+        return str;
+    }
+
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        queue<string> que; // que can better pop put front
+        string temp;
+        for (char c: data) {
+            if (c == ',') {
+                que.emplace(temp);
+                temp.clear();
+            }
+            else temp.push_back(c);
+        }
+        return build(que);
+    }
+    
+    TreeNode* build(queue<string>& que) {
+        if (que.front() == "#") {
+            que.pop();
+            return NULL;
+        }
+        TreeNode* root = new TreeNode(stoi(que.front()));
+        que.pop();
+        root->left = build(que);
+        root->right = build(que);
+        return root;
+    }
+};
+
+// Your Codec object will be instantiated and called as such:
+// Codec ser, deser;
+// TreeNode* ans = deser.deserialize(ser.serialize(root));
+```
+Solution2: BFS
+```
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Codec {
+public:
+
+    // Encodes a tree to a single string.
+    void traverse(TreeNode* root, string& str) {
+        queue<TreeNode*> que;
+        que.push(root);
+        //str += to_string(root->val) + ",";
+        while (!que.empty()) {
+            int size = que.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode* cur = que.front();
+                que.pop();
+                if (cur == NULL) str += "#,";
+                else {
+                    str += to_string(cur->val) + ",";
+                    que.push(cur->left);
+                    que.push(cur->right);
+                }
+            }
+        }
+    }
+    
+    string serialize(TreeNode* root) {
+        string str;
+        traverse(root, str);
+        return str;
+    }
+
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        queue<string> str; // queue can better pop put front
+        string temp;
+        for (char c: data) {
+            if (c == ',') {
+                str.emplace(temp);
+                temp.clear();
+            }
+            else temp.push_back(c);
+        }
+        return build(str);
+    }
+    
+    TreeNode* build(queue<string>& str) {
+        if (str.front() == "#") return NULL;
+        TreeNode* root = new TreeNode(stoi(str.front()));
+        queue<TreeNode*> que;
+        que.push(root);
+        str.pop();
+        while (!que.empty() && !str.empty()) {
+            TreeNode* cur = que.front();
+            que.pop();
+            if (str.front() != "#") {
+                TreeNode* left = new TreeNode(stoi(str.front()));
+                cur->left = left;
+                que.push(left);
+                str.pop();
+            }
+            else {
+                cur->left = NULL;
+                str.pop();
+            }
+            if (str.front() != "#") {
+                TreeNode* right = new TreeNode(stoi(str.front()));
+                cur->right = right;
+                que.push(right);
+                str.pop();
+            }
+            else {
+                cur->right = NULL;
+                str.pop();
+            }
+        }
+        return root;
+    }
+};
+
+// Your Codec object will be instantiated and called as such:
+// Codec ser, deser;
+// TreeNode* ans = deser.deserialize(ser.serialize(root));
+```
+### 210
+
+### 200
+
+### 133
