@@ -548,8 +548,60 @@ public:
 // Codec ser, deser;
 // TreeNode* ans = deser.deserialize(ser.serialize(root));
 ```
-### 210
+### 210 Course Schedule II
+There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
+For example, the pair [0, 1], indicates that to take course 0 you have to first take course 1.
+Return the ordering of courses you should take to finish all courses. If there are many valid answers, return any of them. If it is impossible to finish all courses, return an empty array.
+> Example 1:  
+Input: numCourses = 2, prerequisites = [[1,0]]  
+Output: [0,1]  
+Explanation: There are a total of 2 courses to take. To take course 1 you should have finished course 0. So the correct course order is [0,1].  
 
+> Example 2:  
+Input: numCourses = 4, prerequisites = [[1,0],[2,0],[3,1],[3,2]]  
+Output: [0,2,1,3]  
+Explanation: There are a total of 4 courses to take. To take course 3 you should have finished both courses 1 and 2. Both courses 1 and 2 should be taken after you finished course 0.  
+So one correct course order is [0,1,2,3]. Another correct ordering is [0,2,1,3].  
+
+> Example 3:  
+Input: numCourses = 1, prerequisites = []  
+Output: [0]  
+
+Solution1: BFS
+```
+class Solution {
+public:
+    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<vector<int>> edges(numCourses);
+        vector<int> indeg(numCourses); 
+        //Indegree means the number of prerequisites of current course
+        vector<int> result;
+        queue<int> que;
+        for (const auto& pre: prerequisites) {
+            edges[pre[1]].push_back(pre[0]);
+            //edges[i] means all courses that take course i as prereq.
+            indeg[pre[0]]++;
+            //indeg[i] means how many prereqs for course i.
+        }
+        for (int i = 0; i < indeg.size(); i++) {
+            if (indeg[i] == 0) que.push(i);
+        }
+        while (!que.empty()) {
+            int u = que.front();
+            //u is the course to be taken this time
+            que.pop();
+            result.push_back(u);
+            for (int v: edges[u]) {
+                //v are the courses that take u as prereq.
+                indeg[v]--;
+                if (indeg[v] == 0) que.push(v);
+            }
+        }
+        if (result.size() < numCourses) return {};
+        return result;
+    }
+};
+```
 ### 200
 
 ### 133
