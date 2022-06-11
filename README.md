@@ -1068,6 +1068,209 @@ public:
 
 
 ## Data Structures
+### Singly-Linked List
+Definition
+```
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+```
+#### 2 Add Two Numbers
+```
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode *p1 = l1, *p2 = l2, *dummy = new ListNode(-1);
+        ListNode *p = dummy;
+        int carry = 0;
+        while (p1 || p2 || carry) {
+            int val = 0;
+            if (carry) val += carry;
+            if (p1) {
+                val += p1->val;
+                p1 = p1->next;
+            }
+            if (p2) {
+                val += p2->val;
+                p2 = p2->next;
+            }
+            carry = val / 10;
+            val = val % 10;
+            p->next = new ListNode(val);
+            p = p->next;
+        }
+        return dummy->next;
+    }
+};
+```
+#### 21 Merge Two Sorted Lists
+```
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        ListNode *p1 = list1, *p2 = list2, *dummy = new ListNode(-1);
+        ListNode *p = dummy;
+        while (p1 && p2) {
+            if (p1->val < p2->val) {
+                p->next = p1;
+                p1 = p1->next;
+            }
+            else {
+                p->next = p2;
+                p2 = p2->next;
+            }
+            p = p->next;
+        }
+        if (p1) p->next = p1;
+        if (p2) p->next = p2;
+        return dummy->next;
+    }
+};
+```
+#### 23
 
+### Hash Map
+#### 705 Design HashSet
+```
+class MyHashSet {
+private:
+    vector<list<int>> data;
+    static const int base = 769;
+    static int hash(int key) {
+        return key % base;
+    }
+public:
+    MyHashSet(): data(base) {}
+    
+    void add(int key) {
+        int h = hash(key);
+        for (auto it = data[h].begin(); it != data[h].end(); it++) {
+            if ((*it) == key) return;
+        }
+        data[h].push_back(key);
+    }
+    
+    void remove(int key) {
+        int h = hash(key);
+        for (auto it = data[h].begin(); it != data[h].end(); it++) {
+            if ((*it) == key) {
+                data[h].erase(it);
+                return;
+            }
+        }
+    }
+    
+    bool contains(int key) {
+        int h = hash(key);
+        for (auto it = data[h].begin(); it != data[h].end(); it++) {
+            if ((*it) == key) return true;
+        }
+        return false;
+    }
+};
 
+/**
+ * Your MyHashSet object will be instantiated and called as such:
+ * MyHashSet* obj = new MyHashSet();
+ * obj->add(key);
+ * obj->remove(key);
+ * bool param_3 = obj->contains(key);
+ */
+```
+#### 706 Design HashMap
+```
+class MyHashMap {
+private:
+    vector<list<pair<int, int>>> data;
+    static const int base = 769;
+    static int hash(int key) {
+        return key % base;
+    }
+public:
+    MyHashMap(): data(base) {}
+    
+    void put(int key, int value) {
+        int h = hash(key);
+        for (auto it = data[h].begin(); it != data[h].end(); it++) {
+            if ((*it).first == key) {
+                (*it).second = value;
+                return;
+            }
+        }
+        data[h].push_back(make_pair(key, value));
+    }
+    
+    int get(int key) {
+        int h = hash(key);
+        for (auto it = data[h].begin(); it != data[h].end(); it++) {
+            if ((*it).first == key) return (*it).second;
+        }
+        return -1;
+    }
+    
+    void remove(int key) {
+        int h = hash(key);
+        for (auto it = data[h].begin(); it != data[h].end(); it++) {
+            if ((*it).first == key) {
+                data[h].erase(it);
+                return;
+            }
+        }
+    }
+};
+
+/**
+ * Your MyHashMap object will be instantiated and called as such:
+ * MyHashMap* obj = new MyHashMap();
+ * obj->put(key,value);
+ * int param_2 = obj->get(key);
+ * obj->remove(key);
+ */
+```
+### Stack
+#### 155 Min Stack
+```
+class MinStack {
+    stack<int> val_stack;
+    stack<int> min_stack;
+public:
+    MinStack() {
+        min_stack.push(INT_MAX);
+    }
+    
+    void push(int val) {
+        val_stack.push(val);
+        min_stack.push(min(min_stack.top(), val));
+    }
+    
+    void pop() {
+        val_stack.pop();
+        min_stack.pop();
+    }
+    
+    int top() {
+        return val_stack.top();
+    }
+    
+    int getMin() {
+        return min_stack.top();
+    }
+};
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack* obj = new MinStack();
+ * obj->push(val);
+ * obj->pop();
+ * int param_3 = obj->top();
+ * int param_4 = obj->getMin();
+ */
+```
 ## Dynamic Programming
