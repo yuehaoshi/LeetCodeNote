@@ -1134,8 +1134,34 @@ public:
     }
 };
 ```
-#### 23
-
+### Heap
+#### 23 Merge k Sorted Lists
+```
+class Solution {
+public:
+    struct comp {
+        bool operator()(ListNode* a, ListNode* b) {
+            return a->val > b->val;
+        }
+    };
+    priority_queue<ListNode*, vector<ListNode*>, comp> q;
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        for (auto node:lists) {
+            if (node) q.push(node);
+        }
+        ListNode* head = new ListNode();
+        ListNode* tail = head;
+        while (!q.empty()) {
+            ListNode* node = q.top();
+            q.pop();
+            tail->next = node;
+            tail = tail->next;
+            if (node->next) q.push(node->next);
+        }
+        return head->next;
+    }
+};
+```
 ### Hash Map
 #### 705 Design HashSet
 ```
@@ -1273,4 +1299,151 @@ public:
  * int param_4 = obj->getMin();
  */
 ```
+### Monotonic Stack:
+#### 300 Longest Increasing Subsequence 
+Solution 1: Patience Sort
+
+Solution 2: Dynamic Programming
+```
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        vector<int> dp(nums.size(), 1);
+        int res = dp[0];
+        for (int i = 1; i < nums.size(); i++) {
+            for (int j = 0; j < i; j++) {
+                if (nums[j] < nums[i]) dp[i] = max(dp[i], dp[j] + 1);
+            }
+            res = max(res, dp[i]);
+        }
+        return res;
+    }
+};
+```
+### Complex Data Structure:
+#### 146 LRU Cache
+```
+struct DLinkedNode {
+    int key, value;
+    DLinkedNode* prev;
+    DLinkedNode* next;
+    DLinkedNode(): key(0), value(0), prev(nullptr), next(nullptr) {}
+    DLinkedNode(int _key, int _value): key(_key), value(_value), prev(nullptr), next(nullptr) {}
+};
+class LRUCache {
+private:
+    unordered_map<int, DLinkedNode*> cache;
+    DLinkedNode* head;
+    DLinkedNode* tail;
+    int size;
+    int capacity;
+public:
+    LRUCache(int capacity): capacity(capacity), size(0) {
+        head = new DLinkedNode();
+        tail = new DLinkedNode();
+        head->next = tail;
+        tail->prev = head;
+    }
+    
+    int get(int key) {
+        if (!cache.count(key)) return -1;
+        DLinkedNode* node = cache[key];
+        moveToHead(node);
+        return node->value;
+    }
+    
+    void put(int key, int value) {
+        if (!cache.count(key)) {
+            DLinkedNode* node = new DLinkedNode(key, value);
+            cache[key] = node;
+            addToHead(node);
+            size++;
+            if (size > capacity) {
+                DLinkedNode* removed = removeTail();
+                cache.erase(removed->key);
+                delete removed;
+                size--;
+            }
+        }
+        else {
+            DLinkedNode* node = cache[key];
+            node->value = value;
+            moveToHead(node);
+        }
+    }
+    void addToHead(DLinkedNode* node) {
+        node->prev = head;
+        node->next = head->next;
+        head->next->prev = node;
+        head->next = node;
+    }
+    void removeNode(DLinkedNode* node) {
+        node->prev->next = node->next;
+        node->next->prev = node->prev;
+    }
+    void moveToHead(DLinkedNode* node) {
+        removeNode(node);
+        addToHead(node);
+    }
+    DLinkedNode* removeTail() {
+        DLinkedNode* node = tail->prev;
+        removeNode(node);
+        return node;
+    }
+};
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache* obj = new LRUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */
+```
+#### 460 LFU Cache
+
 ## Dynamic Programming
+### 416
+
+### 62 Unique Paths
+```
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+        vector<vector<int>> dp(m, vector<int>(n, 0));
+        for (int i = 0; i < m; i++) dp[i][0] = 1;
+        for (int j = 0; j < n; j++) dp[0][j] = 1;
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+            }
+        }
+        return dp[m - 1][n - 1];
+    }
+};
+```
+### 63 Unique Paths II
+```
+class Solution {
+public:
+    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+        int m = obstacleGrid.size(), n = obstacleGrid[0].size();
+        vector<vector<int>> dp(m, vector<int>(n, 0));
+        for (int i = 0; i < m; i++) {
+            if (obstacleGrid[i][0] == 1) break;
+            dp[i][0] = 1;
+        }
+        for (int j = 0; j < n; j++) {
+            if (obstacleGrid[0][j] == 1) break;
+            dp[0][j] = 1;
+        }
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                if (obstacleGrid[i][j] == 1) dp[i][j] = 0;
+                else dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+            }
+        }
+        return dp[m - 1][n - 1];
+    }
+};
+```
+### 518 Coin CHange II
