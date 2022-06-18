@@ -1,18 +1,12 @@
 Unordered_map, implemented with hash map in c++, is different than map:
-                | map                 | unordered_map
----------------------------------------------------------
-Ordering        | increasing  order   | no ordering
-                | (by default)        |
-
-Implementation  | Self balancing BST  | Hash Table
-                | like Red-Black Tree |  
-
-search time     | log(n)              | O(1) -> Average 
-                |                     | O(n) -> Worst Case
-
-Insertion time  | log(n) + Rebalance  | Same as search
-                      
-Deletion time   | log(n) + Rebalance  | Same as search
+https://www.geeksforgeeks.org/map-vs-unordered_map-c/#:~:text=map%20is%20used%20to%20store,pairs%20in%20non%2Dsorted%20order.
+|                | map                                    | unordered_map                      |
+|----------------|----------------------------------------|------------------------------------|
+|Ordering        | increasing  order<br>(by default)      | no ordering                        |
+|Implementation  | Self balancing BST like Red-Black Tree | Hash Table                         |
+|search time     | log(n)                                 | O(1) -> Average O(n) -> Worst Case |
+|Insertion time  | log(n) + Rebalance                     | Same as search                     |
+|Deletion time   | log(n) + Rebalance                     | Same as search                     |
 
 Initialization:
 ```
