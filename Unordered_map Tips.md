@@ -66,3 +66,40 @@ public:
     }
 };
 ```
+Another Example:
+map.count, map[key] difference
+LeetCode 76 Minimum Window Substring:
+```
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        unordered_map<char, int> needed, window;
+        for (char c: t) needed[c]++;
+        int left = 0, right = 0;
+        int valid = 0;
+        int start = 0, len = s.size() + 1;
+        while (right < s.size()) {
+            if (needed.count(s[right])) {
+                //Cannot use needed[s[right]] in if() here, because if s[right] is not in needed, needed will add a key s[right] with null value;
+                cout<<needed[s[right]]<<endl;
+                window[s[right]]++;
+                if (window[s[right]] == needed[s[right]]) valid++;
+            }
+            while (valid == needed.size()) {
+                if (right + 1 - left < len) {
+                    start = left;
+                    len = right + 1 - left;
+                }
+                if (needed.count(s[left])) {
+                    if (window[s[left]] == needed[s[left]]) valid--;
+                    window[s[left]]--;
+                }
+                left++;
+            }
+            right++;
+        }
+        if (len == s.size() + 1) return "";
+        return s.substr(start, len);
+    }
+};
+```
