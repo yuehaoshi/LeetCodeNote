@@ -66,9 +66,9 @@ public:
     }
 };
 ```
-Another Example:
-map.count, map[key] difference
-LeetCode 76 Minimum Window Substring:
+Another Example:<br>
+map.count, map[key] difference<br>
+LeetCode 76 Minimum Window Substring:<br>
 ```
 class Solution {
 public:
