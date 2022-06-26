@@ -103,3 +103,31 @@ public:
     }
 };
 ```
+Sometimes if we use hashmap for recording indexes, for example, record current order before aorting an array, we can use vector<pair<int, int>> instead.
+For example: 
+Leetcode 870
+```
+class Solution {
+public:
+    vector<int> advantageCount(vector<int>& nums1, vector<int>& nums2) {
+        int n = nums1.size();
+        sort(nums1.begin(), nums1.end());
+        vector<pair<int, int>> map2;
+        for (int i = 0; i < n; i++) map2.push_back(make_pair(nums2[i], i));
+        sort(map2.begin(), map2.end());
+        vector<int> res(n);
+        int left = 0, right = n - 1;
+        for (int i = n - 1; i >= 0; i--) {
+            if (nums1[right] > map2[i].first) {
+                res[map2[i].second] = nums1[right];
+                right--;
+            }
+            else {
+                res[map2[i].second] = nums1[left];
+                left++;
+            }
+        }
+        return res;
+    }
+};
+```
