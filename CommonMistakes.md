@@ -24,3 +24,13 @@ int n = vec.size();
 It turns out that size() is an unsigned value, and it will be a problem in "i>=vec.size() - k"
 (Leetcode 347)
 https://jdhao.github.io/2017/10/07/loop-forward-backward-with-cpp-vector/
+
+Difference between Emplace and Push (for stack, priority_queue):
+Emplace is creating the to be inserted element, push is just to push the copy.<br>
+Emplace can use the inner constructor for its input elements, eg
+```
+priority_queue<pair<int, int>> pq;
+pq.emplace(1, 2)
+//This line is equal to
+pq.push(make_pair(1, 2))
+```
