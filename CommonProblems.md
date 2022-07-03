@@ -1,3 +1,9 @@
+Unsolved: Leetcode 376
+```
+applying nonzero offset to null pointer
+```
+
+Solved
 ```
 ERROR: AddressSanitizer: stack-buffer-overflow on address...
 ```
