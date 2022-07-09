@@ -993,7 +993,7 @@ All we need is to understand this article:
 https://labuladong.gitee.io/algo/4/29/105/
 |             | Unique Element && Unique Choose | Unique Element && Repeat Choose | Repeat Element && Unique Choose |
 | ----------- | ------------------------------- | ------------------------------- | ------------------------------- |
-| Permutation | LeetCode 77                     |            Senario 2            |            Senario 3            |
+| Permutation | Senario1 (LeetCode 77)          |            Senario 2            |            Senario 3            |
 | Combination | LeetCode 46                     |            Senario 5            |            Senario 6            |
 | Subset      | LeetCode 78                     | 
 ### 78 Subset, Unique Element, Unique Choose
