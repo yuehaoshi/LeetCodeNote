@@ -1,4 +1,4 @@
-# LeetCodeNote
+# AlgrithomNote
 ## Tips
 Line by Line Comment: (mac, leetcode, vscode) command + /
 Block Comment: (mac, vscode) shift + option + A
