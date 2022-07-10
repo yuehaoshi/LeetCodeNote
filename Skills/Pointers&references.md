@@ -3,7 +3,7 @@ Link: https://www.geeksforgeeks.org/pointers-vs-references-cpp/
 
 ## Initialization:
 ### Pointer Initialization:
-```
+```cpp
 int a = 10;
 int *p = &a; //This means "I am declaring a pointer p of a", where p is the address of a and *p is the content of a
 OR
@@ -11,7 +11,7 @@ int *p; //"I am declaring a pointer named p"
 p = &a; //"pointer p contains the address of a"
 ```
 ### Reference Initialization:
-```
+```cpp
 int a = 10;
 int &p = a;
 ```
@@ -20,7 +20,7 @@ int &p = a;
 ## Example: LeetCode 230: Kth Smallest Element in a BST
 The idea is to use a inorder traversal to traverse the BST and find the kth traversal result. We can declare the index and result variable as global variable like this:
 ### Global Variable:
-```
+```cpp
 class Solution {
 public:
     int i = 0;
@@ -44,7 +44,7 @@ public:
 ```
 However, if we donot want to use global variable, we can define i and res in kthSmallest function and use them by reference or pointer in traverse function.
 ### Use as reference:
-```
+```cpp
 class Solution {
 public:
     int kthSmallest(TreeNode* root, int k) {
@@ -70,7 +70,7 @@ public:
 };
 ```
 ### Use as pointer:
-```
+```cpp
 class Solution {
 public:
     int kthSmallest(TreeNode* root, int k) {
