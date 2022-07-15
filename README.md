@@ -17,6 +17,7 @@ Block Comment: (mac, vscode) shift + option + A
 - [HashMap](CommonDataStructure/HashMap.md)
 - [Stack](CommonDataStructure/Stack.md)
 - [ComplexDS](CommonDataStructure/ComplexDS.md)
+- [PriorityQueue](CommonDataStructure/PriorityQueue.md)
 
 ## Some Skills
 - [BitOperation](/Skills/BitOperation.md)
