@@ -32,3 +32,6 @@ public:
     }
 };
 ```
+Reference: 
+http://neutrofoton.github.io/blog/2016/12/29/c-plus-plus-priority-queue-with-comparator/
+https://jimmy-shen.medium.com/customize-comparison-in-c-fa48c0eac6d8
