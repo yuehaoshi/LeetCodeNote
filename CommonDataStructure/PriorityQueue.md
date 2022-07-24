@@ -73,3 +73,52 @@ public:
     }
 };
 ```
+
+LeetCode 07/23/22 Weekly Contest03 (2353)
+[link](https://leetcode.com/contest/weekly-contest-303/problems/design-a-food-rating-system/)
+```
+struct cmp{
+    bool operator() (pair<int, string>& p1, pair<int, string>& p2) {
+        if (p1.first == p2.first) return p1.second > p2.second;
+        return p1.first < p2.first;
+    }  
+};
+
+class FoodRatings {
+private:
+    unordered_map<string, priority_queue<pair<int, string>, vector<pair<int, string>>, cmp>> cuisine_food;
+    unordered_map<string, int> food_rating;
+    unordered_map<string, string> food_cuisine;
+public:
+    FoodRatings(vector<string>& foods, vector<string>& cuisines, vector<int>& ratings) {
+        for (int i = 0; i < foods.size(); i++) {
+            cuisine_food[cuisines[i]].emplace(ratings[i], foods[i]);
+            food_rating[foods[i]] = ratings[i];
+            food_cuisine[foods[i]] = cuisines[i];
+        }
+    }
+    
+    void changeRating(string food, int newRating) {
+        food_rating[food] = newRating;
+        cuisine_food[food_cuisine[food]].emplace(newRating, food);
+    }
+    
+    string highestRated(string cuisine) {
+        while (food_rating[cuisine_food[cuisine].top().second] != cuisine_food[cuisine].top().first) {
+            cuisine_food[cuisine].pop();
+        }
+        return cuisine_food[cuisine].top().second;
+    }
+};
+
+/**
+ * Your FoodRatings object will be instantiated and called as such:
+ * FoodRatings* obj = new FoodRatings(foods, cuisines, ratings);
+ * obj->changeRating(food,newRating);
+ * string param_2 = obj->highestRated(cuisine);
+ */
+
+// 07/24/22 First Time
+// We can make a map<cuisine, food>, map<food, rating>, and find a max rating using for loop each time, but this will cause time exceed. We can also design a priority_queue in cuisine, each time we update a rating, we push this new rating with food name into priority queue, and when we call highestrated, we can just check if this top {rating, food} is still existing or not. If not, we just pop out top and check another one. Note this problem does not need us to delete changed food rating, so we can do this, otherwie this method is not working. C++ Priority queue does not have a remove function, so it is not easy to delete from priority queue. This problem also make each food have only one rating, so this is convinient for us to check if the food rating is valid or not.
+// Time Complexity: O(NlogN) for priority queue in foodRatings function, and O(1) in highestRated, O(logN) in changeRating. 
+```
