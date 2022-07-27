@@ -30,7 +30,7 @@ public:
 // Traverse once, but pretty slow. Optimized idea is: use array but not vector, and use array but not hash set
 ```
 
-Performance compared to vector:
-Vector is better for frequent insertion and deletion, whereas Arrays are much better suited for frequent access of elements scenario.
-Vector occupies much more memory in exchange for managing storage and growing dynamically, whereas Arrays are a memory-efficient data structure.
+Performance compared to vector:  
+Vector is better for frequent insertion and deletion, whereas Arrays are much better suited for frequent access of elements scenario.  
+Vector occupies much more memory in exchange for managing storage and growing dynamically, whereas Arrays are a memory-efficient data structure.  
 [Reference](https://www.educba.com/c-plus-plus-vector-vs-array/)
