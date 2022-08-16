@@ -34,3 +34,18 @@ Performance compared to vector:
 - Vector is better for frequent insertion and deletion, whereas Arrays are much better suited for frequent access of elements scenario.  
 - Vector occupies much more memory in exchange for managing storage and growing dynamically, whereas Arrays are a memory-efficient data structure.  
 [Reference](https://www.educba.com/c-plus-plus-vector-vs-array/)
+
+C++ array Initialize with value:
+```
+int arr[26];
+fill_n(arr, 26, 0);
+cout<<"arr[0]: "<<arr[0]<<endl;
+cout<<"size of arr: "<<sizeof(arr)<<endl;
+cout<<"size of arr: "<<sizeof(arr) / sizeof(int)<<endl;
+```
+output is:
+"
+arr[0]: 0
+size of arr: 104
+size of arr: 26
+"
