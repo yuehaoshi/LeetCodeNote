@@ -43,9 +43,9 @@ cout<<"arr[0]: "<<arr[0]<<endl;
 cout<<"size of arr: "<<sizeof(arr)<<endl;
 cout<<"size of arr: "<<sizeof(arr) / sizeof(int)<<endl;
 ```
-output is:
-"
-arr[0]: 0
-size of arr: 104
-size of arr: 26
-"
+output is:  
+"  
+arr[0]: 0  
+size of arr: 104  
+size of arr: 26  
+"  
