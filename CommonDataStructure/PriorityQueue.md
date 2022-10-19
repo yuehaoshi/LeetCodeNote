@@ -37,7 +37,7 @@ http://neutrofoton.github.io/blog/2016/12/29/c-plus-plus-priority-queue-with-com
 https://jimmy-shen.medium.com/customize-comparison-in-c-fa48c0eac6d8
 
 pq custom comparator (leetcode 1851)
-```
+```cpp
 class Compare {
 public: 
     bool operator() (vector<int>& vec1, vector<int>& vec2) {
@@ -76,7 +76,7 @@ public:
 
 LeetCode 07/23/22 Weekly Contest03 (2353)
 [link](https://leetcode.com/contest/weekly-contest-303/problems/design-a-food-rating-system/)
-```
+```cpp
 struct cmp{
     bool operator() (pair<int, string>& p1, pair<int, string>& p2) {
         if (p1.first == p2.first) return p1.second > p2.second;
@@ -121,4 +121,40 @@ public:
 // 07/24/22 First Time
 // We can make a map<cuisine, food>, map<food, rating>, and find a max rating using for loop each time, but this will cause time exceed. We can also design a priority_queue in cuisine, each time we update a rating, we push this new rating with food name into priority queue, and when we call highestrated, we can just check if this top {rating, food} is still existing or not. If not, we just pop out top and check another one. Note this problem does not need us to delete changed food rating, so we can do this, otherwie this method is not working. C++ Priority queue does not have a remove function, so it is not easy to delete from priority queue. This problem also make each food have only one rating, so this is convinient for us to check if the food rating is valid or not.
 // Time Complexity: O(NlogN) for priority queue in foodRatings function, and O(1) in highestRated, O(logN) in changeRating. 
+```
+# Sort PQ with pair comparation
+LeetCode 692. Top K Frequent Words
+```cpp
+class Solution {
+private:
+    struct cmp {
+        bool operator() (pair<int, string> a, pair<int, string> b) {
+            if (a.first == b.first) {
+                return a.second > b.second;
+            }
+            else {
+                return a.first < b.first;
+            }
+        }
+    };
+public:
+    vector<string> topKFrequent(vector<string>& words, int k) {
+        unordered_map<string, int> map;
+        for (string& word: words) map[word]++;
+        priority_queue<pair<int, string>, vector<pair<int, string>>, cmp> pq;
+        for (auto it: map) {
+            pq.emplace(it.second, it.first);
+        }
+        vector<string> res;
+        while (res.size() < k) {
+            res.push_back(pq.top().second);
+            pq.pop();
+        }
+        return res;
+    }
+};
+
+// 10/18/22 First Time
+// First we need to find the frequency of each string, then we need to sort strings by frequency and lexicographical order (if frequency same), then we find the top k frequent and smaller lexicographical (if kth and k+1th has the same frequency), then return the top kth strings to result vector. The only thing to notice is that the default pq is sorting elements in "less than" order (if there is a smaller element pushed into pq, it will be put at bottom to make it seems like newly pushed into a normal queue, and larger element will thus float up to the top), so it will make smaller lexicographical string deeper, and thus we will get larger lexicographical strings and not in desired prder, so we need to write our own comparator: if pair a.first<b.first, this is normal "default" pq setting (if a.first <b.first==true, then a will be put deeper and b will float upper, so smaller frequency will be at bottom). If a.first==b.first, we want smaller lexicographical string to float up so that we will pop them first into result array, so we need to return a.second>b.second, which means we will put a deeper and b upper if a.first==b.first and a.second>b.second==true
+// Time Complexity: O(NlogN)
 ```
