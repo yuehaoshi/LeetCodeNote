@@ -1,6 +1,4 @@
 # BackTracking:
-All we need is to understand this article:
-https://labuladong.gitee.io/algo/4/29/105/
 |                      | Unique Element && Unique Choose | Unique Element && Repeat Choose | Repeat Element && Unique Choose |
 | -------------------- | ------------------------------- | ------------------------------- | ------------------------------- |
 | Permutation          | Scenario 1 (LeetCode 77)        |            Senario 3            |            Senario 5            |
