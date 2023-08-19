@@ -1,6 +1,6 @@
 C++ STD Sort can be passed by a compare function to compare the desired element for each sorted element. 
 For example, if we want to sort a 2d array by the second element in interval vector, then we can do 
-```
+```cpp
 private:
 static bool cmp(const vector<int>& a, vector<int>& b) {
     return a[1] < b[1];
@@ -12,7 +12,7 @@ void sortVec(vector<vector<int>> &vec) {
 ```
 
 For example, leetcode 435 non-overlapping intervals
-```
+```cpp
 class Solution {
 private:
     static bool cmp(const vector<int>& a, const vector<int>& b) {
@@ -36,7 +36,7 @@ public:
 ```
 Another example, when we want to sort a 2d vector based on the first element of interval vector ascendantly, then on the second element decendantly (if first element is same). 
 Leetcode 1288
-```
+```cpp
 class Solution {
 private:
     static bool cmp(const vector<int>& a, const vector<int>& b) {
@@ -60,3 +60,10 @@ public:
     }
 };
 ```
+customized sort: 
+```cpp
+sort(edges.begin(), edges.end(), [](const vector<int>& a, const vector<int>& b) {
+    return a[2] < b[2];
+});
+```
+[link here](https://leetcode.com/problems/find-critical-and-pseudo-critical-edges-in-minimum-spanning-tree/submissions/)
